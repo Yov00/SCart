@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Product;
 use App\Cart;
 use Session;
+use Stripe\Stripe;
+use Stripe\Charge;
 
 class ProductController extends Controller
 {
@@ -28,21 +30,18 @@ class ProductController extends Controller
 
     public function getCart()
     {
-      if(!Session::has('cart'))
-      {
-          return view('shop.shopping-cart',compact(['products' => null]));
-      }
-      $oldCart = Session::get('cart');
-      $cart = new Cart($oldCart);
-      return view('shop.shopping-cart',['products'=>$cart->items,'totalPrice'=>$cart->totalPrice]);
-
+        if (!Session::has('cart')) {
+            return view('shop.shopping-cart', compact(['products' => null]));
+        }
+        $oldCart = Session::get('cart');
+        $cart = new Cart($oldCart);
+        return view('shop.shopping-cart', ['products' => $cart->items, 'totalPrice' => $cart->totalPrice]);
     }
 
     public function getCheckout()
     {
-        if(!Session::has('cart'))
-        {
-            return view('shop.shopping-cart',compact(['products' => null]));
+        if (!Session::has('cart')) {
+            return view('shop.shopping-cart', compact(['products' => null]));
         }
         $oldCart = Session::get('cart');
         $cart = new Cart($oldCart);
@@ -58,7 +57,35 @@ class ProductController extends Controller
         $product = Product::find($id);
 
         return view('shop.show-product')->with([
-            'product'=>$product
+            'product' => $product
         ]);
+    }
+
+
+
+    public function postCheckout(Request $request)
+    {
+     
+        if (!Session::has('cart')) {
+            return redirect()->route('shop.shopping-cart');
+        }
+
+        $oldCart = Session::get('cart');
+        $cart = new Cart($oldCart);
+
+        Stripe::setApiKey('sk_test_Uxf8DJYYOgCMIazGMX1dtHAU00M9jKzcxg');
+
+        try {
+            Charge::create(array(
+                "amount" => $cart->totalPrice * 100, //stripe uses cents as default that's why we multiply by 100
+                "currency" => "usd",
+                "source" => $request->input('stripeToken'),
+                "description" => "Test Charge"
+            ));
+        } catch (\Exception $e) {
+            return redirect()->route('checkout')->with('error', $e->getMessage());
+        }
+        Session::forget('cart');
+        return redirect()->route('shop.index')->with('success', 'Successfully purcased products!');
     }
 }

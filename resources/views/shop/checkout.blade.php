@@ -13,7 +13,10 @@
         <h5>
             Your Total: ${{ $total }}
         </h5>
-    <form class="container" style="" id="checkoutUserInfo" action="/checkout" method="POST">
+    <div id="charge-error" class="alert alert-danger {{!Session::has('error') ? 'hidden' : '' }}">
+        {{Session::get('error')}}
+    </div>
+    <form class="container"  id="checkout-form" action="/checkout" method="POST">
         <div class="row">
             <div class="col-12">
                 <h4 style="text-align:center;">Card Information</h4>
@@ -80,5 +83,12 @@
     </form>
     </div>
 </div>
+
+@endsection
+@section('scripts')
+
+<script src="https://js.stripe.com/v2/"></script>
+<script src="https://js.stripe.com/v3/"></script>
+<script src="{{URL::to('/js/checkout.js')}}"></script>
 
 @endsection

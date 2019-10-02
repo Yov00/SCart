@@ -12,10 +12,13 @@
 */
 
 Route::get('/add-to-cart/{id}','ProductController@getAddToCart')->middleware('auth');
-Route::get('/','ProductController@index');
+Route::get('/',[
+    'uses' =>'ProductController@index',
+    'as'=>'shop.index'
+]);
 Route::get('/shoppingCart', [
     'uses'=>'ProductController@getCart',
-    'as'=>'shopping-cart',
+    'as'=>'shop.shopping-cart',
     'middleware'=>'auth'
     ]); 
 Route::get('/checkout',[
@@ -30,6 +33,10 @@ Route::get('show-product/{id}',[
     'middleware'=>'auth'
 ]);
 
+Route::post('/checkout',[
+    'uses'=> 'ProductController@postCheckout',
+    'as' => 'checkout',
+]);
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

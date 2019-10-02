@@ -5,6 +5,15 @@ Products
 
 @section('content')
 @include('partials.Carousel')
+@if(Session::has('success'))
+<div class="row">
+  <div class="col-12 ">
+      <div id="charge-message" class="alert alert-success" style="text-align:center">
+        {{Session::get('success')}}
+      </div>
+  </div>
+</div>
+@endif
 <div class="row" >
   <div class="col-md-12" style="text-align:center;padding:40px 0;">
   <h1>Producsts</h1>

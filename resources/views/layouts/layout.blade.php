@@ -16,7 +16,7 @@
      <!-- FONTAWESOME GOES HERE ↑ -->
 
      <!-- AND HERE COMES STRIPE! -->
-     <script src="https://js.stripe.com/v3/"></script>
+    
     <!-- AND HERE ENDS STRIPE! -->
     @yield('styles') <!-- Styles after boostrap so they can override if needed-->
     <title>@yield('title')</title>
