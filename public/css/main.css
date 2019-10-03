@@ -194,3 +194,18 @@ width:30%;
        
     }
 }
+#charge-message{
+    animation-name: chargeFade;
+    animation-iteration-count: 1;
+    animation-delay: 5s;
+    animation-duration:4s;
+    animation-fill-mode: forwards;
+}
+@keyframes chargeFade{
+    0%{
+        opacity:1;
+    }
+    100%{
+        opacity:0;
+    }
+}

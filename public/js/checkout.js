@@ -20,7 +20,7 @@ $form.submit(function(event){
 });
 
 function stripeResponsehandler(status,response){
-    alert('Response: '+response);
+ 
     if(response.error){
         
         $('#charge-error').removeClass('hidden');
@@ -31,7 +31,7 @@ function stripeResponsehandler(status,response){
         var token = response.id;
        
         $form.append($('<input type="hidden" id="stripeToken" name="stripeToken"/>').val(token));
-        alert($('#stripeToken').val());
+      
         $form.get(0).submit();
     }
 }

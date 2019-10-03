@@ -11,6 +11,7 @@
 |
 */
 
+Route::get('/categories/{id}','CategoriesController@index');
 Route::get('/add-to-cart/{id}','ProductController@getAddToCart')->middleware('auth');
 Route::get('/',[
     'uses' =>'ProductController@index',

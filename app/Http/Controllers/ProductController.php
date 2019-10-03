@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Product;
 use App\Cart;
+use App\Category;
 use Session;
 use Stripe\Stripe;
 use Stripe\Charge;
@@ -14,7 +15,12 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::all();
-        return view('shop.index')->with(['products' => $products]);
+        $categories = Category::all();
+        return view('shop.index')->with([
+            'products' => $products,
+            'categories'=> $categories,
+            ]);
+
     }
 
     public function getAddToCart(Request $request, $id)
@@ -82,7 +88,7 @@ class ProductController extends Controller
                 "source" => $request->input('stripeToken'),
                 "description" => "Test Charge"
             ));
-        } catch (\Exception $e) {
+        }catch (\Exception $e) {
             return redirect()->route('checkout')->with('error', $e->getMessage());
         }
         Session::forget('cart');

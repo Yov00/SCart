@@ -6,14 +6,21 @@
 
 
 @section('content')
-
+<div class="alert alert-success" id="fakeCC">
+        <b>Fake CC Number: </b>
+        
+                4242424242424242
+       
+      </div>
+   
+</div>
 <div class="row">
     <div class="col-6" id='checkOutContainer'>
         <h1>Checkout</h1>
         <h5>
             Your Total: ${{ $total }}
         </h5>
-    <div id="charge-error" class="alert alert-danger {{!Session::has('error') ? 'hidden' : '' }}">
+    <div id="charge-error" class="alert alert-danger {{ !Session::has('error') ? 'd-none' : '' }}">
         {{Session::get('error')}}
     </div>
     <form class="container"  id="checkout-form" action="/checkout" method="POST">

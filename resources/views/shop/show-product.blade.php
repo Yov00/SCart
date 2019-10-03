@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-
+<?php use App\Category; ?>
 
     <div class="productWrapper">
             <div class="productImage">
@@ -24,6 +24,5 @@
          </div>
           
     </div>
-
 
 @endsection
